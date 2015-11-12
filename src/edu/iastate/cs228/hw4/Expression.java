@@ -67,6 +67,13 @@ public abstract class Expression
 	 */
 	protected static boolean isInt(String s) 
 	{
+		char c = s.charAt(0);
+		
+		if(Character.isDigit(c)){
+			return true;
+		}
+		
+		
 		// TODO 
 		return false; 
 	}
@@ -80,6 +87,8 @@ public abstract class Expression
 	 */
 	protected static boolean isOperator(char c) 
 	{
+		
+		
 		// TODO 
 		return false; 
 	}
@@ -92,7 +101,13 @@ public abstract class Expression
 	 */
 	protected static boolean isVariable(char c) 
 	{
-		// TODO 
-		return false;
+		if(c >= 'a' && c <= 'z'){
+			return true;		
+		}
+		
+		else{
+			return false;
+		}
+		
 	}	
 }

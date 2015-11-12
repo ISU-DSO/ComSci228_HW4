@@ -50,8 +50,22 @@ public class Operator implements Comparable<Operator>
 	@Override
 	public int compareTo(Operator op)
 	{ 	
+		int i = 0;
+		
+		if(stackPrecedence > inputPrecedence){
+			i = i+1;
+			return i;
+		}
+		
+		if(stackPrecedence == inputPrecedence){
+			return i;
+		}
 		// TODO
-		return -1;  // TO MODIFY
+		if(stackPrecedence < inputPrecedence){
+			i = i-1;
+			return i;
+		}
+		return i;  // TO MODIFY
 	} 
 
 
