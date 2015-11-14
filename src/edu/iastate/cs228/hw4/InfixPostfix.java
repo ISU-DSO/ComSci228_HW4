@@ -13,6 +13,7 @@ package edu.iastate.cs228.hw4;
  */
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class InfixPostfix 
 {
@@ -26,6 +27,16 @@ public class InfixPostfix
 	 **/
 	public static void main(String[] args) 
 	{
+		int trialNum = 1;
+		
+		System.out.println("Evaluation of Infix and Postfix Expressions");
+		System.out.println("1 (standard input)  2 (file input)  3 (exit)");
+		System.out.println("(Enter I before an infix expression, P before a postfix expression)");
+		Scanner s = new Scanner(System.in);
+		System.out.print("Trial " + trialNum + ":" +s.nextInt());
+		
+		
+		
 		// TODO  
 	}
 	

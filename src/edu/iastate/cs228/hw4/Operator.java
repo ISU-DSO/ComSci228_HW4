@@ -31,14 +31,44 @@ public class Operator implements Comparable<Operator>
 	
 	private	int inputPrecedence;  // input precedence of operator in the range [0, 5]
 	private	int stackPrecedence;  // stack precedence of operator in the range [-1, 3]
-
+	private int rank; // rank of a given operator
 	/**
 	 * Constructor 
 	 * @param ch
 	 */
 	public Operator(char ch) 
 	{
-		// TODO
+		if(ch == '+' || ch == '-'){
+			inputPrecedence = 1;
+			stackPrecedence = 1;
+			rank = -1;
+		}
+		
+		if(ch == '*' || ch == '/' || ch == '%'){
+			inputPrecedence = 2;
+			stackPrecedence = 2;
+			rank = -1;
+		}
+		
+		if(ch == '^'){
+			inputPrecedence = 4;
+			stackPrecedence = 3;
+			rank = -1;
+			
+		}
+		
+		if(ch == '('){
+			inputPrecedence = 5;
+			stackPrecedence = -1;
+			rank = 0;
+		}
+		
+		if(ch == ')'){
+			inputPrecedence = 0;
+			stackPrecedence = 0;
+			rank =0;
+		}
+		
 	}
 	
 

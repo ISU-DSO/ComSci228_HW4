@@ -87,10 +87,34 @@ public abstract class Expression
 	 */
 	protected static boolean isOperator(char c) 
 	{
+		if(c == '+'){
+			return true;
+		}
 		
+		if(c == '-'){
+			return true;
+		}
 		
-		// TODO 
-		return false; 
+		if(c == '*'){
+			return true;
+		}
+		
+		if(c == '/'){
+			return true;
+		}
+		
+		if(c == '%'){
+			return true;
+		}
+		
+		if(c == '^'){
+			return true;
+		}
+		
+		else{
+			return false; 
+		}
+		
 	}
 
 	/** 
