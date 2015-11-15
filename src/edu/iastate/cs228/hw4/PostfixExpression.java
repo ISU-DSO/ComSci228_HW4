@@ -2,7 +2,7 @@ package edu.iastate.cs228.hw4;
 
 /**
  *  
- * @author
+ * @author Ian Jamieson
  *
  */
 
@@ -14,6 +14,7 @@ package edu.iastate.cs228.hw4;
 
 import java.util.HashMap;
 import java.util.NoSuchElementException; 
+import java.util.Scanner;
 
 public class PostfixExpression extends Expression 
 {
@@ -31,6 +32,8 @@ public class PostfixExpression extends Expression
 	 */
 	public PostfixExpression (String st, HashMap<Character, Integer> varTbl)
 	{
+		postfixExpression = st;
+		PureStack<Integer> n = this.operandStack;
 		// TODO
 	}
 	
@@ -42,6 +45,7 @@ public class PostfixExpression extends Expression
 	 */
 	public PostfixExpression (String s)
 	{
+		HashMap newMap = new HashMap();
 		// TODO 
 	}
 
@@ -53,8 +57,7 @@ public class PostfixExpression extends Expression
 	@Override 
 	public String toString()
 	{
-		// TODO 
-		return null; 
+		return postfixExpression.replace("( ", "(").replace(" )", ")");
 	}
 	
 
@@ -96,6 +99,14 @@ public class PostfixExpression extends Expression
      */
 	public int evaluate() 
     {
+		
+		Scanner s = new Scanner(postfixExpression);
+		
+		while(s.hasNext()){
+			if(isInt(s.next())){
+				//s.next() = operandStack.push();
+			}
+		}
     	// TODO 
 		return 0;  
     }
@@ -108,6 +119,14 @@ public class PostfixExpression extends Expression
      */
 	private void getOperands() throws NoSuchElementException 
 	{
+		if(operandStack.size() >= 2){
+			rightOperand = operandStack.pop();
+			leftOperand = operandStack.pop();
+		}
+		
+		else{
+			throw new NoSuchElementException();
+		}
 		// TODO 
 	}
 
@@ -120,7 +139,34 @@ public class PostfixExpression extends Expression
 	 */
 	private int compute(char op)  
 	{
+		
+		int comp = 0;
+		
+		if(op == '+'){
+			comp = leftOperand + rightOperand;
+		}
+		
+		if(op == '-'){
+			comp = leftOperand - rightOperand;
+		}
+		
+		if(op == '*'){
+			comp = leftOperand * rightOperand;
+		}
+		
+		if(op == '/'){
+			comp = leftOperand / rightOperand;
+		}
+		
+		if(op == '%'){
+			comp = leftOperand % rightOperand;
+		}
+		
+		if(op == '^'){
+			comp = leftOperand ^ rightOperand;
+		}
+		
 		// TODO 
-		return 0;  // TO MODIFY 
+		return comp;  // TO MODIFY 
 	}
 }

@@ -1,5 +1,9 @@
 package edu.iastate.cs228.hw4;
 
+/**
+ * @author Ian Jamieson
+ */
+
 import java.util.HashMap;
 
 public abstract class Expression 
@@ -22,6 +26,8 @@ public abstract class Expression
 	 */
 	protected Expression(String st, HashMap<Character, Integer> varTbl)
 	{
+		
+		
 		// TODO 
 	}
 	
@@ -133,5 +139,9 @@ public abstract class Expression
 			return false;
 		}
 		
-	}	
+	}
+	
+	 protected static String removeExtraSpaces(String s) {
+	     return s.replaceAll("\\s+", " ").trim();
+	 }
 }

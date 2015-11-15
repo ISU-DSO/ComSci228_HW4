@@ -2,7 +2,7 @@ package edu.iastate.cs228.hw4;
 
 /**
  *  
- * @author
+ * @author Ian Jamieson
  *
  */
 
@@ -32,6 +32,8 @@ public class InfixExpression extends Expression
 	 */
 	public InfixExpression (String st, HashMap<Character, Integer> varTbl)
 	{
+		String infixExpression = st;
+		
 		// TODO
 	}
 	
@@ -54,8 +56,7 @@ public class InfixExpression extends Expression
 	@Override
 	public String toString()
 	{
-		// TODO  
-		return null; 
+		return infixExpression.replace("( ", "(").replace(" )", ")");
 	}
 	
 	
@@ -101,7 +102,7 @@ public class InfixExpression extends Expression
      *  
      *      -- "Operator expected" if the cumulative rank goes above 1;
      *      -- "Operand expected" if the rank goes below 0; 
-     *      -- "Missing '('" if scanning a ‘)’ results in popping the stack empty with no '(';
+     *      -- "Missing '('" if scanning a ï¿½)ï¿½ results in popping the stack empty with no '(';
      *      -- "Missing ')'" if a '(' is left unmatched on the stack at the end of the scan; 
      *      -- "Invalid character" if a scanned char is neither a digit nor an operator; 
      *   
@@ -124,8 +125,10 @@ public class InfixExpression extends Expression
 	 * @return value of the infix expression 
 	 * @throws ExpressionFormatException, UnassignedVariableException
 	 */
-	public int evaluate()  
+	public int evaluate() throws ExpressionFormatException  
     {
+		postfix();
+		
     	// TODO 
 		return 0;  
     }
@@ -147,4 +150,8 @@ public class InfixExpression extends Expression
 	}
 	
 	// other helper methods if needed
+	
+	
+	
 }
+
