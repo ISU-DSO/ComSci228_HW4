@@ -26,9 +26,8 @@ public abstract class Expression
 	 */
 	protected Expression(String st, HashMap<Character, Integer> varTbl)
 	{
-		
-		
-		// TODO 
+		postfixExpression = st;
+		varTable = varTbl;
 	}
 	
 	/**
@@ -38,7 +37,9 @@ public abstract class Expression
 	 */
 	protected Expression(String st) 
 	{
-		// TODO 
+		postfixExpression = st;
+		HashMap<Character, Integer> h = new HashMap<Character, Integer>();
+	
 	}
 
 	/**

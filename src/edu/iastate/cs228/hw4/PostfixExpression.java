@@ -34,8 +34,8 @@ public class PostfixExpression extends Expression
 	public PostfixExpression (String st, HashMap<Character, Integer> varTbl)
 	{
 		postfixExpression = st;
-		PureStack<Integer> n = this.operandStack;
-		// TODO
+		operandStack = (PureStack<Integer>) new Stack<Integer>();
+		
 	}
 	
 	
