@@ -7,6 +7,7 @@ package edu.iastate.cs228.hw4;
  */
 
 import java.util.HashMap;
+import java.util.Stack;
 
 /**
  * 
@@ -32,9 +33,10 @@ public class InfixExpression extends Expression
 	 */
 	public InfixExpression (String st, HashMap<Character, Integer> varTbl)
 	{
-		String infixExpression = st;
+		infixExpression = st;
+		varTable = varTbl;
+		Stack<Operator> n = new Stack<Operator>();
 		
-		// TODO
 	}
 	
 
@@ -45,7 +47,9 @@ public class InfixExpression extends Expression
 	 */
 	public InfixExpression (String s)
 	{
-		// TODO  
+		infixExpression = s;
+		HashMap<Character, Integer> m = new HashMap<Character, Integer>();
+		
 	}
 	
 
@@ -127,7 +131,16 @@ public class InfixExpression extends Expression
 	 */
 	public int evaluate() throws ExpressionFormatException  
     {
-		postfix();
+		try{
+			postfix();
+			PostfixExpression n = 
+					new PostfixExpression(infixExpression, HashMap<Character, Integer> varTable);
+		}
+		
+		catch{
+			
+		}
+		
 		
     	// TODO 
 		return 0;  

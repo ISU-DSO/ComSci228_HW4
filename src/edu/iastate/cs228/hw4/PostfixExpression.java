@@ -15,6 +15,7 @@ package edu.iastate.cs228.hw4;
 import java.util.HashMap;
 import java.util.NoSuchElementException; 
 import java.util.Scanner;
+import java.util.Stack;
 
 public class PostfixExpression extends Expression 
 {
@@ -97,18 +98,98 @@ public class PostfixExpression extends Expression
      *           -- "Variable <name> was not assigned a value", where <name> is the name of the variable.  
      *           
      */
-	public int evaluate() 
+	public int evaluate() throws ExpressionFormatException 
     {
 		
 		Scanner s = new Scanner(postfixExpression);
+		int j = postfixExpression.length();	
 		
-		while(s.hasNext()){
+		for(int i = 0; i < j; i++){
+			
+			char c = postfixExpression.charAt(i);
 			if(isInt(s.next())){
-				//s.next() = operandStack.push();
+				int l = Integer.parseInt(s.next());
+				operandStack.push(l);
+				
 			}
+			
+			else if(isOperator(c)){
+				getOperands();
+				int m = compute(c);
+				operandStack.push(m);
+				
+			}
+			
+			else{
+				s.close();
+				throw new ExpressionFormatException("Invalid character");
+			}
+			
 		}
-    	// TODO 
-		return 0;  
+		
+		if(!operandStack.isEmpty()){
+			s.close();
+			throw new ExpressionFormatException("Too many operands");
+		}
+		s.close();
+		int eval2 = operandStack.pop();
+		
+		
+//		while(s.hasNext()){
+//			if(isInt(s.next())){
+//				int i = Integer.parseInt(s.next());
+//				n.push(i);
+//				
+//			}
+//			if(isOperator(s.next())){
+//				
+//				int right = n.pop();
+//				int left = n.pop();
+//				int eval = 0;
+//				
+//				if(s.next() == "+"){
+//					eval = left + right;
+//					n.push(eval);
+//				}
+//				
+//				if(s.next() == "-"){
+//					eval = left - right;
+//					n.push(eval);
+//				}
+//				
+//				if(s.next() == "*"){
+//					eval = left * right;
+//					n.push(eval);
+//				}
+//				
+//				if(s.next() == "/"){
+//					eval = left / right;
+//					n.push(eval);
+//				}
+//				
+//				if(s.next() == "^"){
+//					eval = left ^ right;
+//					n.push(eval);
+//				}
+//				
+//				if(s.next() == "%"){
+//					eval = left % right;
+//					n.push(eval);
+//				}
+//			}
+//			
+//			if(s.next() == ""){
+//				break;
+//			}
+//			
+//			else{
+//				break;
+//			}
+//		}
+		
+		
+   
+		return eval2;  
     }
 	
 
