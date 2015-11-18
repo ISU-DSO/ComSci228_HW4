@@ -162,7 +162,8 @@ public class InfixExpression extends Expression
 	{
 		String s = "";
 		
-		if(op == ){
+		if(op.getOp() == ')' && operatorStack.peek().getOp() == '('){
+			operatorStack.pop();
 			
 		}
 		
@@ -172,7 +173,6 @@ public class InfixExpression extends Expression
 		}
 		
 		
-		// TODO 
 	}
 	
 	// other helper methods if needed
