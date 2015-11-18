@@ -72,8 +72,17 @@ public class InfixExpression extends Expression
 	 */
 	public String postfixString() 
 	{
-		// TODO
-		return null; 
+		String s = new String();
+		
+		if(postfixReady == false){
+			s = null;
+		}
+		
+		if(postfixReady == true){
+			s = postfixExpression.toString();
+		}
+		
+		return s; 
 	}
 
 
@@ -131,19 +140,11 @@ public class InfixExpression extends Expression
 	 */
 	public int evaluate() throws ExpressionFormatException  
     {
-		try{
-			postfix();
-			PostfixExpression n = 
-					new PostfixExpression(infixExpression, HashMap<Character, Integer> varTable);
-		}
-		
-		catch{
-			
-		}
-		
-		
-    	// TODO 
-		return 0;  
+		postfix();
+		PostfixExpression n = new PostfixExpression(infixExpression);
+		int i = n.evaluate();
+ 
+		return i;  
     }
 
 
@@ -159,6 +160,18 @@ public class InfixExpression extends Expression
 	 */
 	private void outputHigherOrEqual(Operator op)
 	{
+		String s = "";
+		
+		if(op == ){
+			
+		}
+		
+		if(op.compareTo(operatorStack.peek()) >= 0){
+			s = s + operatorStack.pop();
+			postfixExpression = s;
+		}
+		
+		
 		// TODO 
 	}
 	

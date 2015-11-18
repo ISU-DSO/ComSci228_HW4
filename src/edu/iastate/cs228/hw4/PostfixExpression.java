@@ -35,7 +35,6 @@ public class PostfixExpression extends Expression
 	{
 		postfixExpression = st;
 		operandStack = (PureStack<Integer>) new Stack<Integer>();
-		
 	}
 	
 	
@@ -46,8 +45,8 @@ public class PostfixExpression extends Expression
 	 */
 	public PostfixExpression (String s)
 	{
-		HashMap newMap = new HashMap();
-		// TODO 
+		postfixExpression = s;
+		HashMap<Character, Integer> newMap = new HashMap<Character, Integer>();
 	}
 
 	
@@ -133,62 +132,7 @@ public class PostfixExpression extends Expression
 		}
 		s.close();
 		int eval2 = operandStack.pop();
-		
-		
-//		while(s.hasNext()){
-//			if(isInt(s.next())){
-//				int i = Integer.parseInt(s.next());
-//				n.push(i);
-//				
-//			}
-//			if(isOperator(s.next())){
-//				
-//				int right = n.pop();
-//				int left = n.pop();
-//				int eval = 0;
-//				
-//				if(s.next() == "+"){
-//					eval = left + right;
-//					n.push(eval);
-//				}
-//				
-//				if(s.next() == "-"){
-//					eval = left - right;
-//					n.push(eval);
-//				}
-//				
-//				if(s.next() == "*"){
-//					eval = left * right;
-//					n.push(eval);
-//				}
-//				
-//				if(s.next() == "/"){
-//					eval = left / right;
-//					n.push(eval);
-//				}
-//				
-//				if(s.next() == "^"){
-//					eval = left ^ right;
-//					n.push(eval);
-//				}
-//				
-//				if(s.next() == "%"){
-//					eval = left % right;
-//					n.push(eval);
-//				}
-//			}
-//			
-//			if(s.next() == ""){
-//				break;
-//			}
-//			
-//			else{
-//				break;
-//			}
-//		}
-		
-		
-   
+	
 		return eval2;  
     }
 	

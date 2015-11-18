@@ -48,7 +48,7 @@ public abstract class Expression
 	 */
 	public void setVarTable(HashMap<Character, Integer> varTbl) 
 	{
-		// TODO 
+		varTable = varTbl;
 	}
 	
 	/**
