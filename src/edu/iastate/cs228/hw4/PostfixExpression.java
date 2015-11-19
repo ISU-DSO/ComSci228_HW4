@@ -35,6 +35,7 @@ public class PostfixExpression extends Expression
 	{
 		postfixExpression = st;
 		operandStack = (PureStack<Integer>) new Stack<Integer>();
+		varTable = varTbl;
 	}
 	
 	
@@ -100,40 +101,65 @@ public class PostfixExpression extends Expression
 	public int evaluate() throws ExpressionFormatException 
     {
 		
-		Scanner s = new Scanner(postfixExpression);
-		int j = postfixExpression.length();	
-		
-		for(int i = 0; i < j; i++){
+		try{
+			Scanner s = new Scanner(postfixExpression);
+			int j = postfixExpression.length();	
 			
-			char c = postfixExpression.charAt(i);
-			if(isInt(s.next())){
-				int l = Integer.parseInt(s.next());
-				operandStack.push(l);
+			for(int i = 0; i < j; i++){
+				
+				char c = postfixExpression.charAt(i);
+				if(isInt(s.next())){
+					int l = Integer.parseInt(s.next());
+					operandStack.push(l);
+					
+				}
+				else if(isVariable(c)){
+					if(!varTable.containsKey(c)){
+						throw new UnassignedVariableException("Variable " + c + " was not assigned a value");
+					}
+				}
+				else if(isOperator(c)){
+					try{
+						getOperands();
+						
+						try{
+							int m = compute(c);
+							operandStack.push(m);
+						}
+						
+						catch(ExpressionFormatException e){
+							throw e;
+						}
+						
+					}
+					
+					catch(NoSuchElementException e){
+						throw e;
+						
+					}	
+				}
+				
+				
+				else{
+					s.close();
+					throw new ExpressionFormatException("Invalid character");
+				}
 				
 			}
 			
-			else if(isOperator(c)){
-				getOperands();
-				int m = compute(c);
-				operandStack.push(m);
-				
-			}
-			
-			else{
+			if(!operandStack.isEmpty()){
 				s.close();
-				throw new ExpressionFormatException("Invalid character");
+				throw new ExpressionFormatException("Too many operands");
 			}
-			
+			s.close();
+			int eval2 = operandStack.pop();
+		
+			return eval2;  
 		}
 		
-		if(!operandStack.isEmpty()){
-			s.close();
-			throw new ExpressionFormatException("Too many operands");
+		catch(Exception e){
+			throw new ExpressionFormatException("Unrecognized exception");
 		}
-		s.close();
-		int eval2 = operandStack.pop();
-	
-		return eval2;  
     }
 	
 
@@ -162,7 +188,7 @@ public class PostfixExpression extends Expression
 	 * @param op operator that acts on leftOperand and rightOperand. 
 	 * @return
 	 */
-	private int compute(char op)  
+	private int compute(char op)  throws ExpressionFormatException
 	{
 		
 		int comp = 0;
@@ -180,6 +206,9 @@ public class PostfixExpression extends Expression
 		}
 		
 		if(op == '/'){
+			if(rightOperand == 0){
+				throw new ExpressionFormatException("Divide by zero");
+			}
 			comp = leftOperand / rightOperand;
 		}
 		
@@ -188,10 +217,13 @@ public class PostfixExpression extends Expression
 		}
 		
 		if(op == '^'){
+			if(leftOperand == 0 && rightOperand == 0){
+				throw new ExpressionFormatException("0^0");
+			}
 			comp = leftOperand ^ rightOperand;
 		}
 		
 		// TODO 
-		return comp;  // TO MODIFY 
+		return comp;
 	}
 }

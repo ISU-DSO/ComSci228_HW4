@@ -31,7 +31,7 @@ public class Operator implements Comparable<Operator>
 	
 	private	int inputPrecedence;  // input precedence of operator in the range [0, 5]
 	private	int stackPrecedence;  // stack precedence of operator in the range [-1, 3]
-	private int rank; // rank of a given operator
+	public int rank; // rank of a given operator
 	/**
 	 * Constructor 
 	 * @param ch
@@ -90,12 +90,12 @@ public class Operator implements Comparable<Operator>
 		if(stackPrecedence == inputPrecedence){
 			return i;
 		}
-		// TODO
+		
 		if(stackPrecedence < inputPrecedence){
 			i = i-1;
 			return i;
 		}
-		return i;  // TO MODIFY
+		return i;  
 	} 
 
 

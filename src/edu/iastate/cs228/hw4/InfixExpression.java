@@ -7,6 +7,7 @@ package edu.iastate.cs228.hw4;
  */
 
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Stack;
 
 /**
@@ -20,9 +21,8 @@ public class InfixExpression extends Expression
 {
 	private String infixExpression;   		// the infix expression to convert		
 	private boolean postfixReady = false;   // postfix already generated if true
-	
 	private PureStack<Operator> operatorStack; 	  // stack of operators 
-	
+
 	
 	/**
 	 * Constructor stores the input infix string, and initializes the operand stack and 
@@ -35,8 +35,7 @@ public class InfixExpression extends Expression
 	{
 		infixExpression = st;
 		varTable = varTbl;
-		Stack<Operator> n = new Stack<Operator>();
-		
+		operatorStack = (PureStack<Operator>) new Stack<Operator>();
 	}
 	
 
@@ -125,6 +124,50 @@ public class InfixExpression extends Expression
 	 */
 	public void postfix() throws ExpressionFormatException
 	{
+		int cr = 0;
+		
+		if(postfixReady == false){
+			
+			for(int i = 1; i < infixExpression.length(); i++){
+				if(!isInt(Character.toString(infixExpression.charAt(i))) || !isOperator(infixExpression.charAt(i))){
+					throw new ExpressionFormatException("Invalid character");
+				}
+				char c = infixExpression.charAt(i);
+				if(isOperator(c)){
+					if(operatorStack.isEmpty()){
+						Operator n = new Operator(c);
+						operatorStack.push(n);
+						cr = cr + n.rank;
+						if(cr > 1){
+							throw new ExpressionFormatException("Operator expected");
+						}
+					}
+					
+					else{
+						Operator m = new Operator(c);
+						if(operatorStack.peek().compareTo(m) <= -1){
+							operatorStack.push(m);
+							cr = cr + m.rank;
+							if(cr > 1){
+								throw new ExpressionFormatException("Operator expected");
+							}
+						}
+						else{
+							outputHigherOrEqual(m);
+							
+						}
+					}
+				}
+				else{
+					postfixExpression = postfixExpression + c;
+				}
+			}
+			
+		}
+		
+		else{
+			postfixReady = true;
+		}
 		 // TODO 
 	}
 	
@@ -157,18 +200,28 @@ public class InfixExpression extends Expression
 	 * not write it to postfixExpression. 
 	 * 
 	 * @param op  current operator
+	 * @throws ExpressionFormatException 
 	 */
-	private void outputHigherOrEqual(Operator op)
+	private void outputHigherOrEqual(Operator op) throws ExpressionFormatException
 	{
+		int cr = 0;
 		String s = "";
 		
 		if(op.getOp() == ')' && operatorStack.peek().getOp() == '('){
 			operatorStack.pop();
+			cr = cr - op.rank;
+			if(cr > 1){
+				throw new ExpressionFormatException("Operator expected");
+			}
 			
 		}
 		
 		if(op.compareTo(operatorStack.peek()) >= 0){
 			s = s + operatorStack.pop();
+			cr = cr - op.rank;
+			if(cr > 1){
+				throw new ExpressionFormatException("Operator expected");
+			}
 			postfixExpression = s;
 		}
 		
