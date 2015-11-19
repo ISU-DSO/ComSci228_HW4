@@ -89,8 +89,7 @@ public class InfixExpression extends Expression
 	 */
 	public String postfixString() 
 	{
-		String s = "";
-		
+		String s = "";	
 		
 		if(postfixReady == true){
 			s = postfixExpression.toString();

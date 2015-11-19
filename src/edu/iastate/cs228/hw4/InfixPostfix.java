@@ -12,9 +12,12 @@ package edu.iastate.cs228.hw4;
  *
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class InfixPostfix 
@@ -26,8 +29,9 @@ public class InfixPostfix
 	 * to the created InfixExpression or PostfixExpression object. 
 	 *  
 	 * @param args
+	 * @throws FileNotFoundException 
 	 **/
-	public static void main(String[] args) 
+	public static void main(String[] args) throws FileNotFoundException 
 	{
 		int trialNum = 1;
 		boolean tf = true;
@@ -54,6 +58,7 @@ public class InfixPostfix
 				
 				//local variables
 				boolean isInfix = false;
+				boolean hasV = false;
 				
 				
 				
@@ -67,10 +72,12 @@ public class InfixPostfix
 				String exp = one.nextLine();
 				String test = one.nextLine();
 				
+				
 				for(int i = 1; i < test.length(); i++){
 					char c = test.charAt(i);
 					if(c >= 'a' && c <= 'z'){
 						newMap.put(c, 0);
+						hasV = true;
 					}
 					
 				}
@@ -80,31 +87,37 @@ public class InfixPostfix
 					String infix;
 					infix = exp.substring(1, exp.length());
 					InfixExpression i = new InfixExpression(infix);
-					System.out.println("Infix: " + i.toString());
-					System.out.println("Postfix: " + i.postfixString());
+					System.out.println("Infix form: " + i.toString());
+					System.out.println("Postfix form: " + i.postfixString());
 				}
 				
 				if(exp.charAt(0) == 'P'){
 					String post;
 					post = exp.substring(1, exp.length());
 					PostfixExpression n = new PostfixExpression(post);
-					System.out.println("Postfix: " + n.toString());
+					System.out.println("Postfix form: " + n.toString());
 				}
 				
 				//where are the variables?
-				System.out.println("where");
-				
-				//Scanning for the variables
-				Scanner w = new Scanner(System.in);
-				Iterator i = newMap.entrySet().iterator();
-				while(i.hasNext()){
-					char c = ((Map.Entry<Character, Integer>) i.next()).getKey();
-					System.out.println(c + " = ");
-					newMap.put(c, w.nextInt());
+				if(hasV == true){
+					System.out.println("where");
 					
+					//Scanning for the variables
+					Scanner w = new Scanner(System.in);
+					Iterator<Entry<Character, Integer>> i = newMap.entrySet().iterator();
+					while(i.hasNext()){
+						char c = ((Map.Entry<Character, Integer>) i.next()).getKey();
+						System.out.println(c + " = ");
+						newMap.put(c, w.nextInt());
+						
+					}
 				}
 				
 				
+				
+				
+				//evaluating the expression
+				//TODO
 				
 				
 				
@@ -116,8 +129,43 @@ public class InfixPostfix
 			
 			//If the user selects an input file
 			if(userNum == 2){
+				//trial number and import from file line
 				System.out.println("Trial " + trialNum + ":" + userNum);
-				System.out.println("Hi");
+				System.out.println("Input from a file");
+				
+				//importing from a file
+				System.out.println("Enter file name: ");
+				Scanner t = new Scanner(System.in);
+				String fileName = t.nextLine();
+				File f = new File(fileName);
+				
+				try{
+					Scanner x = new Scanner(f);
+					while(x.hasNextLine()){
+						String y = x.nextLine();
+						if(y.charAt(0) == 'I'){
+							String infix;
+							infix = y.substring(1, y.length());
+							InfixExpression i = new InfixExpression(infix);
+							System.out.println("Infix form: " + i.toString());
+							System.out.println("Postfix form: " + i.postfixString());
+						}
+						if(y.charAt(0) == 'P'){
+							String post;
+							post = y.substring(1, y.length());
+							PostfixExpression n = new PostfixExpression(post);
+							System.out.println("Postfix form: " + n.toString());
+							
+						}
+					}
+				}
+				
+				catch(FileNotFoundException e){
+					System.out.println(e);
+				}
+				
+				
+				
 				
 				trialNum = trialNum + 1;
 				tf = true;
@@ -125,7 +173,7 @@ public class InfixPostfix
 			
 			//If the user is so done with this program they just really want to leave it.
 			if(userNum == 3){
-				System.out.println("Bye. ;) ");
+				System.out.println("Closed.");
 				tf = false;
 			}
 		

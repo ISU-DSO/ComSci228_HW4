@@ -34,7 +34,7 @@ public class PostfixExpression extends Expression
 	public PostfixExpression (String st, HashMap<Character, Integer> varTbl)
 	{
 		postfixExpression = st;
-		operandStack = (PureStack<Integer>) new Stack<Integer>();
+		operandStack = new ArrayBasedStack<Integer>();
 		varTable = varTbl;
 	}
 	
@@ -135,7 +135,11 @@ public class PostfixExpression extends Expression
 					
 				}
 				else if(isVariable(c)){
-					if(!varTable.containsKey(c)){
+					if(varTable.containsKey(c)){
+						operandStack.push(varTable.get(c));
+					}
+					else{
+						s.close();
 						throw new UnassignedVariableException("Variable " + c + " was not assigned a value");
 					}
 				}
@@ -155,6 +159,7 @@ public class PostfixExpression extends Expression
 					}
 					
 					catch(NoSuchElementException e){
+						s.close();
 						throw e;
 						
 					}	
