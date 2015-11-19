@@ -59,7 +59,7 @@ public class InfixPostfix
 				//local variables
 				boolean isInfix = false;
 				boolean hasV = false;
-				
+				int eval = 0;
 				
 				
 				//trial number output line
@@ -89,6 +89,7 @@ public class InfixPostfix
 					InfixExpression i = new InfixExpression(infix);
 					System.out.println("Infix form: " + i.toString());
 					System.out.println("Postfix form: " + i.postfixString());
+					
 				}
 				
 				if(exp.charAt(0) == 'P'){
@@ -179,7 +180,7 @@ public class InfixPostfix
 		
 		}
 		
-		// TODO  
+		 
 	}
 	
 	// helper methods if needed

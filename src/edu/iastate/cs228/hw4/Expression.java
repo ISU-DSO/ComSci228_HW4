@@ -118,6 +118,14 @@ public abstract class Expression
 			return true;
 		}
 		
+		if(c == '('){
+			return true;
+		}
+		
+		if(c == ')'){
+			return true;
+		}
+		
 		else{
 			return false; 
 		}

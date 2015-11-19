@@ -150,16 +150,9 @@ public class InfixExpression extends Expression
 	{
 		int cr = 0;
 		
-	
-		if(postfixReady == false){
+
 			postfixExpression = "";
-			for(int i = 1; i < infixExpression.length(); i++){
-				if(!isInt(Character.toString(infixExpression.charAt(i))) && !isOperator(infixExpression.charAt(i))){
-					throw new ExpressionFormatException("Invalid character");
-				}
-				if(infixExpression.charAt(i) == ' '){
-					
-				}
+			for(int i = 0; i < infixExpression.length(); i++){
 				char c = infixExpression.charAt(i);
 				if(isOperator(c)){
 					if(operatorStack.isEmpty()){
@@ -173,34 +166,63 @@ public class InfixExpression extends Expression
 					
 					else{
 						Operator m = new Operator(c);
-						if(operatorStack.peek().compareTo(m) <= -1){
-							operatorStack.push(m);
+						//if(operatorStack.peek().compareTo(m) >= -1){
+						if(operatorStack.peek().compareTo(m) >= 0){
+							outputHigherOrEqual(m);
 							cr = cr + m.rank;
 							if(cr > 1){
 								throw new ExpressionFormatException("Operator expected");
 							}
 						}
+						
 						else{
-							outputHigherOrEqual(m);
+							operatorStack.push(m);
+							
 							
 						}
 					}
 				}
+//				if(!isInt(Character.toString(infixExpression.charAt(i))) || !isOperator(infixExpression.charAt(i)) || c != ' '){
+//					throw new ExpressionFormatException("Invalid character");
+//				}
+				
+				
 				else{
-					postfixExpression = postfixExpression + c + " ";
+					if(c == ' '){
+						postfixExpression = postfixExpression + "";
+					}
+					else{
+						postfixExpression = postfixExpression + c + " ";
+						cr++;
+					}
+					
 				}
+				
+				
+				
+				
 			}
+			
+			int count = 0;
 			while(!operatorStack.isEmpty()){
-				postfixExpression = postfixExpression + " " + operatorStack.pop().operator + " ";
+				if(count == 0){
+					//System.out.println(operatorStack.peek().getOp());
+					postfixExpression = postfixExpression + operatorStack.pop().operator;
+					count++;
+				}
+				else if(count > 0){
+					postfixExpression = postfixExpression + " " + operatorStack.pop().operator;
+				}
+			
+				
 			}
+			postfixReady = true;
 			
 		}
 		
-		else{
-			postfixReady = true;
-		}
-		 // TODO 
-	}
+		
+		 
+	
 	
 	
 	/**
@@ -239,50 +261,73 @@ public class InfixExpression extends Expression
 		String s = "";
 		int p = 0;
 		
-		if(op.getOp() == ')' && operatorStack.peek().getOp() == '('){
-			Operator n = operatorStack.peek();
-			
-			if(n.operator == '('){
-				p++;
-			}
-			if(n.operator == ')'){
-				p--;
-			}
-				
-			}
-			s = s + operatorStack.pop();
-			if(operatorStack.isEmpty()){
-				if(p != 0){
-					if(p > 0){
-						throw new ExpressionFormatException("Missing ')'");	
-					}	
-					if(p < 0){
-						throw new ExpressionFormatException("Missing '('");
-					}
-				
-			}
-			cr = cr - op.rank;
-			if(cr > 1){
-				throw new ExpressionFormatException("Operator expected");
+		
+		while(!operatorStack.isEmpty() && operatorStack.peek().compareTo(op) >= 0){
+			if(operatorStack.peek().getOp() != '('){
+				postfixExpression = postfixExpression + operatorStack.pop().operator + " ";
 			}
 			
 		}
 		
-		System.out.println(op.compareTo(operatorStack.peek()));
-		if(op.compareTo(operatorStack.peek()) >= 0){
-			s = s + operatorStack.pop();
-			cr = cr - op.rank;
-			if(cr > 1){
-				throw new ExpressionFormatException("Operator expected");
-			}
-			postfixExpression = s;
+		if(op.getOp() != ')'){
+			operatorStack.push(op);
+		}
+		
+		else if(operatorStack.isEmpty() || operatorStack.pop().operator != '('){
+			throw new ExpressionFormatException("Missing '(");
 		}
 		
 		
-	}
+		
+		
+//		if(operatorStack.isEmpty()){
+//			throw new ExpressionFormatException();
+//		}
+//		
+//		if(op.getOp() == ')' && operatorStack.peek().getOp() == '('){
+//			Operator n = operatorStack.peek();
+//			
+//			if(n.operator == '('){
+//				p++;
+//			}
+//			if(n.operator == ')'){
+//				p--;
+//			}
+//				
+//			
+//			s = s + operatorStack.pop();
+//			if(operatorStack.isEmpty()){
+//				if(p != 0){
+//					if(p > 0){
+//						throw new ExpressionFormatException("Missing ')'");	
+//					}	
+//					if(p < 0){
+//						throw new ExpressionFormatException("Missing '('");
+//					}
+//				
+//			}
+//			cr = cr - op.rank;
+//			if(cr > 1){
+//				throw new ExpressionFormatException("Operator expected");
+//			}
+//			}
+//		}
+//		
+//	
+//		if(op.compareTo(operatorStack.peek()) >= 0){
+//			s = s + operatorStack.pop();
+//			cr = cr - op.rank;
+//			if(cr > 1){
+//				throw new ExpressionFormatException("Operator expected");
+//			}
+//			postfixExpression = s;
+//		}
+//		
+//		
+//	}
 	
 	// other helper methods if needed
-	
+	}	
 	
 	
 }
