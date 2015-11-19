@@ -48,6 +48,7 @@ public class PostfixExpression extends Expression
 	{
 		postfixExpression = s;
 		HashMap<Character, Integer> newMap = new HashMap<Character, Integer>();
+		
 	}
 
 	
@@ -58,7 +59,27 @@ public class PostfixExpression extends Expression
 	@Override 
 	public String toString()
 	{
-		return postfixExpression.replace("( ", "(").replace(" )", ")");
+		String s = "";
+		for(int i = 0; i < postfixExpression.length(); i++){
+			if(isVariable(postfixExpression.charAt(i)) || isOperator(postfixExpression.charAt(i))){
+				if(postfixExpression.charAt(i) == ')'){
+					
+				}
+				s = s + postfixExpression.charAt(i) + " ";
+			}
+			else{
+				s = s + postfixExpression.charAt(i);
+				if(i == postfixExpression.length()-1){
+					break;
+				}
+				String t = postfixExpression.substring(i+1, i+2);
+				if(!isInt(t)){
+					s = s + " ";
+				}
+			}
+		}
+		s = removeExtraSpaces(s);
+		return s.replace("( ", "(").replace(" )", ")");
 	}
 	
 

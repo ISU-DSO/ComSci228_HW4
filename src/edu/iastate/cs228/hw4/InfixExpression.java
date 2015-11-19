@@ -35,7 +35,7 @@ public class InfixExpression extends Expression
 	{
 		infixExpression = st;
 		varTable = varTbl;
-		operatorStack = (PureStack<Operator>) new Stack<Operator>();
+		operatorStack =  new ArrayBasedStack<Operator>();
 	}
 	
 
@@ -47,6 +47,7 @@ public class InfixExpression extends Expression
 	public InfixExpression (String s)
 	{
 		infixExpression = s;
+		operatorStack = new ArrayBasedStack<Operator>();
 		HashMap<Character, Integer> m = new HashMap<Character, Integer>();
 		
 	}
@@ -59,7 +60,24 @@ public class InfixExpression extends Expression
 	@Override
 	public String toString()
 	{
-		return infixExpression.replace("( ", "(").replace(" )", ")");
+		String s = "";
+		for(int i = 0; i < infixExpression.length(); i++){
+			if(isVariable(infixExpression.charAt(i))|| isOperator(infixExpression.charAt(i))){
+				s = s + infixExpression.charAt(i) + " ";
+			}
+			else{
+				s = s + infixExpression.charAt(i);
+				if(i == infixExpression.length()-1){
+					break;
+				}
+				String t = infixExpression.substring(i+1, i+2);
+				if(!isInt(t)){
+					s = s + " ";
+				}
+			}
+		}
+		s = removeExtraSpaces(s);
+		return s.replace("( ", "(").replace(" )", ")");
 	}
 	
 	
@@ -71,13 +89,20 @@ public class InfixExpression extends Expression
 	 */
 	public String postfixString() 
 	{
-		String s = new String();
+		String s = "";
 		
-		if(postfixReady == false){
-			s = null;
-		}
 		
 		if(postfixReady == true){
+			s = postfixExpression.toString();
+		}
+		
+		if(postfixReady == false){
+			try {
+				postfix();
+			} catch (ExpressionFormatException e) {
+				System.out.println("error");
+				return null;
+			}
 			s = postfixExpression.toString();
 		}
 		
@@ -126,11 +151,15 @@ public class InfixExpression extends Expression
 	{
 		int cr = 0;
 		
+	
 		if(postfixReady == false){
-			
+			postfixExpression = "";
 			for(int i = 1; i < infixExpression.length(); i++){
-				if(!isInt(Character.toString(infixExpression.charAt(i))) || !isOperator(infixExpression.charAt(i))){
+				if(!isInt(Character.toString(infixExpression.charAt(i))) && !isOperator(infixExpression.charAt(i))){
 					throw new ExpressionFormatException("Invalid character");
+				}
+				if(infixExpression.charAt(i) == ' '){
+					
 				}
 				char c = infixExpression.charAt(i);
 				if(isOperator(c)){
@@ -159,8 +188,11 @@ public class InfixExpression extends Expression
 					}
 				}
 				else{
-					postfixExpression = postfixExpression + c;
+					postfixExpression = postfixExpression + c + " ";
 				}
+			}
+			while(!operatorStack.isEmpty()){
+				postfixExpression = postfixExpression + " " + operatorStack.pop().operator + " ";
 			}
 			
 		}
@@ -206,9 +238,30 @@ public class InfixExpression extends Expression
 	{
 		int cr = 0;
 		String s = "";
+		int p = 0;
 		
 		if(op.getOp() == ')' && operatorStack.peek().getOp() == '('){
-			operatorStack.pop();
+			Operator n = operatorStack.peek();
+			
+			if(n.operator == '('){
+				p++;
+			}
+			if(n.operator == ')'){
+				p--;
+			}
+				
+			}
+			s = s + operatorStack.pop();
+			if(operatorStack.isEmpty()){
+				if(p != 0){
+					if(p > 0){
+						throw new ExpressionFormatException("Missing ')'");	
+					}	
+					if(p < 0){
+						throw new ExpressionFormatException("Missing '('");
+					}
+				
+			}
 			cr = cr - op.rank;
 			if(cr > 1){
 				throw new ExpressionFormatException("Operator expected");
@@ -216,6 +269,7 @@ public class InfixExpression extends Expression
 			
 		}
 		
+		System.out.println(op.compareTo(operatorStack.peek()));
 		if(op.compareTo(operatorStack.peek()) >= 0){
 			s = s + operatorStack.pop();
 			cr = cr - op.rank;

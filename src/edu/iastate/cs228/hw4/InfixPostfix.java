@@ -13,6 +13,8 @@ package edu.iastate.cs228.hw4;
  */
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 
 public class InfixPostfix 
@@ -63,26 +65,46 @@ public class InfixPostfix
 				System.out.print("Expression: ");
 				Scanner one = new Scanner(System.in);
 				String exp = one.nextLine();
+				String test = one.nextLine();
 				
+				for(int i = 1; i < test.length(); i++){
+					char c = test.charAt(i);
+					if(c >= 'a' && c <= 'z'){
+						newMap.put(c, 0);
+					}
+					
+				}
+				
+				//checking if the given expression is infix or postfix
 				if(exp.charAt(0) == 'I'){
-					System.out.println("Hello");
-					InfixExpression i = new InfixExpression(exp);
-					System.out.println(i);
+					String infix;
+					infix = exp.substring(1, exp.length());
+					InfixExpression i = new InfixExpression(infix);
+					System.out.println("Infix: " + i.toString());
+					System.out.println("Postfix: " + i.postfixString());
 				}
 				
 				if(exp.charAt(0) == 'P'){
-					PostfixExpression n = new PostfixExpression(exp);	
+					String post;
+					post = exp.substring(1, exp.length());
+					PostfixExpression n = new PostfixExpression(post);
+					System.out.println("Postfix: " + n.toString());
+				}
+				
+				//where are the variables?
+				System.out.println("where");
+				
+				//Scanning for the variables
+				Scanner w = new Scanner(System.in);
+				Iterator i = newMap.entrySet().iterator();
+				while(i.hasNext()){
+					char c = ((Map.Entry<Character, Integer>) i.next()).getKey();
+					System.out.println(c + " = ");
+					newMap.put(c, w.nextInt());
+					
 				}
 				
 				
-				
-				
-				
-				System.out.println("Infix");
-				
-				
-				
-				//System.out.println("Infix");
 				
 				
 				

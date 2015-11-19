@@ -68,6 +68,7 @@ public class Operator implements Comparable<Operator>
 			stackPrecedence = 0;
 			rank =0;
 		}
+		this.operator = ch;
 		
 	}
 	
@@ -82,16 +83,16 @@ public class Operator implements Comparable<Operator>
 	{ 	
 		int i = 0;
 		
-		if(stackPrecedence > inputPrecedence){
+		if(this.stackPrecedence > op.inputPrecedence){
 			i = i+1;
 			return i;
 		}
 		
-		if(stackPrecedence == inputPrecedence){
+		if(this.stackPrecedence == op.inputPrecedence){
 			return i;
 		}
 		
-		if(stackPrecedence < inputPrecedence){
+		if(this.stackPrecedence < op.inputPrecedence){
 			i = i-1;
 			return i;
 		}
