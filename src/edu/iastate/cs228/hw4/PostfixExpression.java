@@ -47,7 +47,7 @@ public class PostfixExpression extends Expression
 	public PostfixExpression (String s)
 	{
 		postfixExpression = s;
-		HashMap<Character, Integer> newMap = new HashMap<Character, Integer>();
+		varTable = new HashMap<Character, Integer>();
 		operandStack = new ArrayBasedStack<Integer>();
 	}
 
@@ -205,7 +205,7 @@ public class PostfixExpression extends Expression
 		else{
 			throw new NoSuchElementException();
 		}
-		// TODO 
+		
 	}
 
 
@@ -249,8 +249,7 @@ public class PostfixExpression extends Expression
 			}
 			comp = (int) Math.pow(leftOperand, rightOperand);
 		}
-		
-		// TODO 
+		 
 		return comp;
 	}
 }

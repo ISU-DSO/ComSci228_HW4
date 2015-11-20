@@ -12,12 +12,9 @@ public abstract class Expression
 {
 	protected String postfixExpression; 		
 	protected HashMap<Character, Integer> varTable; // hash map to store variables in the 
-
 	
-	protected Expression()
-	{
-		// no implementation needed 
-		// removable when you are done
+	Expression(){
+		
 	}
 	
 	
@@ -40,8 +37,7 @@ public abstract class Expression
 	protected Expression(String st) 
 	{
 		postfixExpression = st;
-		HashMap<Character, Integer> h = new HashMap<Character, Integer>();
-	
+		varTable = new HashMap<Character, Integer>();
 	}
 
 	/**
@@ -57,11 +53,7 @@ public abstract class Expression
 			
 			Entry<Character, Integer> n = i.next();
 			this.varTable.put(n.getKey(), n.getValue());
-			
 		}
-		
-		//varTable = varTbl;
-		varTable.containsKey('j');
 	}
 	
 	

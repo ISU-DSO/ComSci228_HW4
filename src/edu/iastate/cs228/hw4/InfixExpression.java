@@ -99,7 +99,6 @@ public class InfixExpression extends Expression
 			try {
 				postfix();
 			} catch (ExpressionFormatException e) {
-				System.out.println("error");
 				return null;
 			}
 			s = postfixExpression.toString();
@@ -154,6 +153,8 @@ public class InfixExpression extends Expression
 			postfixExpression = "";
 			for(int i = 0; i < infixExpression.length(); i++){
 				char c = infixExpression.charAt(i);
+				
+				//if the value is an operator
 				if(isOperator(c)){
 					if(operatorStack.isEmpty()){
 						Operator n = new Operator(c);
@@ -182,11 +183,12 @@ public class InfixExpression extends Expression
 						}
 					}
 				}
+				
 //				else if(!isInt(Character.toString(infixExpression.charAt(i))) && !isOperator(infixExpression.charAt(i)) && c != ' '){
 //					throw new ExpressionFormatException("Invalid character");
 //				}
 				
-				
+				//if the value is anything but an operator
 				else{
 					if(c == ' '){
 						postfixExpression = postfixExpression + "";

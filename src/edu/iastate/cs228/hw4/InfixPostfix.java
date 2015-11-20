@@ -35,6 +35,7 @@ public class InfixPostfix
 	 **/
 	public static void main(String[] args) throws FileNotFoundException, ExpressionFormatException, UnassignedVariableException 
 	{
+		//local variables
 		int trialNum = 1;
 		boolean tf = true;
 		HashMap<Character, Integer> newMap = new HashMap<Character, Integer>();
@@ -45,11 +46,11 @@ public class InfixPostfix
 		System.out.println("(Enter I before an infix expression, P before a postfix expression)");
 		System.out.println();
 		System.out.println();
-		//Scanner to figure out which input they would like to use.
+		
 		
 		
 		while(tf == true){
-		
+			//Scanner to figure out which input they would like to use.
 			Scanner s = new Scanner(System.in);
 			int userNum = s.nextInt();
 			
@@ -76,7 +77,7 @@ public class InfixPostfix
 				String exp = one.nextLine();
 				String test = one.nextLine();
 				
-				
+				//adding variables to the hash map
 				for(int i = 1; i < test.length(); i++){
 					char c = test.charAt(i);
 					if(c >= 'a' && c <= 'z'){
@@ -86,6 +87,8 @@ public class InfixPostfix
 					
 				}
 				one.close();
+				
+				
 				//checking if the given expression is infix or postfix
 				if(exp.charAt(0) == 'I'){
 					String infix;
@@ -102,6 +105,8 @@ public class InfixPostfix
 					PostfixExpression n = new PostfixExpression(post);
 					System.out.println("Postfix form: " + n.toString());
 				}
+				
+				
 				
 				//where are the variables?
 				if(hasV == true){
@@ -136,6 +141,12 @@ public class InfixPostfix
 			
 			//If the user selects an input file
 			if(userNum == 2){
+				
+				//local variables 
+				int eval = 0;
+				InfixExpression in = null;
+				PostfixExpression p;
+				
 				//trial number and import from file line
 				System.out.println("Trial " + trialNum + ":" + userNum);
 				System.out.println("Input from a file");
@@ -153,15 +164,15 @@ public class InfixPostfix
 						if(y.charAt(0) == 'I'){
 							String infix;
 							infix = y.substring(1, y.length());
-							InfixExpression i = new InfixExpression(infix);
-							System.out.println("Infix form: " + i.toString());
-							System.out.println("Postfix form: " + i.postfixString());
+							in = new InfixExpression(infix);
+							System.out.println("Infix form: " + in.toString());
+							System.out.println("Postfix form: " + in.postfixString());
 						}
 						if(y.charAt(0) == 'P'){
 							String post;
 							post = y.substring(1, y.length());
-							PostfixExpression n = new PostfixExpression(post);
-							System.out.println("Postfix form: " + n.toString());
+							p = new PostfixExpression(post);
+							System.out.println("Postfix form: " + p.toString());
 							
 						}
 					}
@@ -172,8 +183,11 @@ public class InfixPostfix
 					System.out.println(e);
 				}
 				
+				//evaluating expression
 				
-				
+				in.setVarTable(newMap);
+				eval = in.evaluate();
+				System.out.println("Evaluation: " + eval);
 				
 				trialNum = trialNum + 1;
 				tf = true;
