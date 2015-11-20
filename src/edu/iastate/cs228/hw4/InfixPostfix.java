@@ -30,8 +30,10 @@ public class InfixPostfix
 	 *  
 	 * @param args
 	 * @throws FileNotFoundException 
+	 * @throws UnassignedVariableException 
+	 * @throws ExpressionFormatException 
 	 **/
-	public static void main(String[] args) throws FileNotFoundException 
+	public static void main(String[] args) throws FileNotFoundException, ExpressionFormatException, UnassignedVariableException 
 	{
 		int trialNum = 1;
 		boolean tf = true;
@@ -60,6 +62,8 @@ public class InfixPostfix
 				boolean isInfix = false;
 				boolean hasV = false;
 				int eval = 0;
+				InfixExpression in = null;
+				PostfixExpression p;
 				
 				
 				//trial number output line
@@ -81,14 +85,14 @@ public class InfixPostfix
 					}
 					
 				}
-				
+				one.close();
 				//checking if the given expression is infix or postfix
 				if(exp.charAt(0) == 'I'){
 					String infix;
 					infix = exp.substring(1, exp.length());
-					InfixExpression i = new InfixExpression(infix);
-					System.out.println("Infix form: " + i.toString());
-					System.out.println("Postfix form: " + i.postfixString());
+					in = new InfixExpression(infix);
+					System.out.println("Infix form: " + in.toString());
+					System.out.println("Postfix form: " + in.postfixString());
 					
 				}
 				
@@ -105,21 +109,23 @@ public class InfixPostfix
 					
 					//Scanning for the variables
 					Scanner w = new Scanner(System.in);
-					Iterator<Entry<Character, Integer>> i = newMap.entrySet().iterator();
-					while(i.hasNext()){
-						char c = ((Map.Entry<Character, Integer>) i.next()).getKey();
+					Iterator<Entry<Character, Integer>> n = newMap.entrySet().iterator();
+					while(n.hasNext()){
+						char c = ((Map.Entry<Character, Integer>) n.next()).getKey();
 						System.out.println(c + " = ");
 						newMap.put(c, w.nextInt());
 						
 					}
+					w.close();
 				}
 				
 				
 				
 				
 				//evaluating the expression
-				//TODO
-				
+				in.setVarTable(newMap);
+				eval = in.evaluate();
+				System.out.println("Evaluation: " + eval);
 				
 				
 				
@@ -159,6 +165,7 @@ public class InfixPostfix
 							
 						}
 					}
+					x.close();
 				}
 				
 				catch(FileNotFoundException e){

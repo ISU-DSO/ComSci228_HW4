@@ -48,7 +48,7 @@ public class PostfixExpression extends Expression
 	{
 		postfixExpression = s;
 		HashMap<Character, Integer> newMap = new HashMap<Character, Integer>();
-		
+		operandStack = new ArrayBasedStack<Integer>();
 	}
 
 	
@@ -117,30 +117,30 @@ public class PostfixExpression extends Expression
      *            in the hash map.  In this case, the exception is thrown with the message
      *            
      *           -- "Variable <name> was not assigned a value", where <name> is the name of the variable.  
+	 * @throws UnassignedVariableException 
      *           
      */
-	public int evaluate() throws ExpressionFormatException 
+	public int evaluate() throws ExpressionFormatException, UnassignedVariableException 
     {
 		
-		try{
+		
 			Scanner s = new Scanner(postfixExpression);
 			int j = postfixExpression.length();	
 			
 			for(int i = 0; i < j; i++){
-				
 				char c = postfixExpression.charAt(i);
-				if(isInt(s.next())){
-					int l = Integer.parseInt(s.next());
-					operandStack.push(l);
-					
+				if(isInt(Character.toString(c))){
+					operandStack.push(Character.getNumericValue(c));
 				}
 				else if(isVariable(c)){
+					
 					if(varTable.containsKey(c)){
 						operandStack.push(varTable.get(c));
 					}
 					else{
 						s.close();
 						throw new UnassignedVariableException("Variable " + c + " was not assigned a value");
+						
 					}
 				}
 				else if(isOperator(c)){
@@ -160,11 +160,14 @@ public class PostfixExpression extends Expression
 					
 					catch(NoSuchElementException e){
 						s.close();
-						throw e;
+						throw new ExpressionFormatException("Too many operators");
 						
 					}	
 				}
 				
+				else if(c == ' '){
+					
+				}
 				
 				else{
 					s.close();
@@ -173,19 +176,17 @@ public class PostfixExpression extends Expression
 				
 			}
 			
+			int eval2 = operandStack.pop();
+			
 			if(!operandStack.isEmpty()){
 				s.close();
 				throw new ExpressionFormatException("Too many operands");
 			}
 			s.close();
-			int eval2 = operandStack.pop();
+			
 		
 			return eval2;  
-		}
 		
-		catch(Exception e){
-			throw new ExpressionFormatException("Unrecognized exception");
-		}
     }
 	
 
@@ -246,7 +247,7 @@ public class PostfixExpression extends Expression
 			if(leftOperand == 0 && rightOperand == 0){
 				throw new ExpressionFormatException("0^0");
 			}
-			comp = leftOperand ^ rightOperand;
+			comp = (int) Math.pow(leftOperand, rightOperand);
 		}
 		
 		// TODO 

@@ -30,8 +30,8 @@ public class JUnit_Madeline {
 	@Test
 	public void testInfixPostixMethod() throws Exception {
 		InfixExpression exp = new InfixExpression("2 + 3 * 4");
-		//exp.postfix();
-		//assertEquals("2 3 4 * +", exp.postfixString());
+		exp.postfix();
+		assertEquals("2 3 4 * +", exp.postfixString());
 		
 		exp = new InfixExpression("2 * 3 + 5");
 		exp.postfix();

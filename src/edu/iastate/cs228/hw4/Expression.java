@@ -5,6 +5,8 @@ package edu.iastate.cs228.hw4;
  */
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 public abstract class Expression 
 {
@@ -48,8 +50,20 @@ public abstract class Expression
 	 */
 	public void setVarTable(HashMap<Character, Integer> varTbl) 
 	{
-		varTable = varTbl;
+		this.varTable = new HashMap<Character, Integer>();
+		
+		Iterator<Entry<Character, Integer>> i = varTbl.entrySet().iterator();
+		while(i.hasNext()){
+			
+			Entry<Character, Integer> n = i.next();
+			this.varTable.put(n.getKey(), n.getValue());
+			
+		}
+		
+		//varTable = varTbl;
+		varTable.containsKey('j');
 	}
+	
 	
 	/**
 	 * Evaluates the infix or postfix expression. 
@@ -80,8 +94,6 @@ public abstract class Expression
 			return true;
 		}
 		
-		
-		// TODO 
 		return false; 
 	}
 
